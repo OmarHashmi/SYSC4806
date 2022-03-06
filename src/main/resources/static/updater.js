@@ -6,7 +6,7 @@ document.getElementById("add").addEventListener("submit", function (e) {
 
    let question = document.getElementById("question").value;
    let answer = document.getElementById("answer").value;
-   let data = "question=" + name + "&answer=" + answer;
+   let data = "question=" + question + "&answer=" + answer;
 
    if (data != null) {
       xhr.send(data);
