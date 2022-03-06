@@ -1,13 +1,12 @@
 document.getElementById("add").addEventListener("submit", function (e) {
    e.preventDefault();
    let xhr = new XMLHttpRequest();
-   xhr.open("POST", "/buddies/add", true);
+   xhr.open("POST", "/questions/add", true);
    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-   let name = document.getElementById("name").value;
-   let address = document.getElementById("address").value;
-   let phoneNumber = document.getElementById("phoneNumber").value;
-   let data = "name=" + name + "&address=" + address + "&phoneNumber=" + phoneNumber;
+   let question = document.getElementById("question").value;
+   let answer = document.getElementById("answer").value;
+   let data = "question=" + name + "&answer=" + answer;
 
    if (data != null) {
       xhr.send(data);
@@ -19,7 +18,7 @@ document.getElementById("add").addEventListener("submit", function (e) {
 document.getElementById("del").addEventListener("submit", function (e) {
    e.preventDefault();
    let xhr = new XMLHttpRequest();
-   xhr.open("POST", "/buddies/del", true);
+   xhr.open("POST", "/questions/del", true);
    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
    let data = "id=" + document.getElementById("id").value;
    if (data != null) {

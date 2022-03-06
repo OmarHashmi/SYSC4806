@@ -11,9 +11,9 @@ public class Preload {
     private static final Logger log = LoggerFactory.getLogger(Preload.class);
 
     @Bean
-    CommandLineRunner initDatabase(AddressBook addressBook) {
+    CommandLineRunner initDatabase(Survey survey) {
         return args -> {
-            log.info("Preloading " + addressBook.save(new BuddyInfo("Homer Simpson", "742 Evergreen Terrance", "111-111-1111")));
+            log.info("Preloading " + survey.save(new Question("What is your name?")));
         };
     }
 }

@@ -27,7 +27,7 @@ public class TestWebApp {
 
     @Test
     public void getDefaultPage() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/buddies",
-                String.class)).contains("Address Book");
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/questions",
+                String.class)).contains("Survey");
     }
 }

@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class DefaultController {
-    private final AddressBook addressBook;
+    private final Survey survey;
 
-    DefaultController(AddressBook addressBook) {
-        this.addressBook = addressBook;
+    DefaultController(Survey addressBook) {
+        this.survey = addressBook;
     }
 
-    @RequestMapping("/buddies")
+    @RequestMapping("/questions")
     public String greeting(Model model) {
-        model.addAttribute("buddies", addressBook.findAll());
-        return "buddies";
+        model.addAttribute("questions", survey.findAll());
+        return "questions";
     }
 }

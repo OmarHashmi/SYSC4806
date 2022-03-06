@@ -6,21 +6,21 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
-    private final AddressBook addressBook;
+    private final Survey survey;
 
-    RestController(AddressBook addressBook) {
-        this.addressBook = addressBook;
+    RestController(Survey addressBook) {
+        this.survey = addressBook;
     }
 
-    @PostMapping(path ="/buddies/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public RedirectView newBuddy(BuddyInfo buddyInfo) {
-        addressBook.save(buddyInfo);
+    @PostMapping(path ="/questions/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public RedirectView newQuestion(Question question) {
+        survey.save(question);
         return new RedirectView("/buddies");
     }
 
-    @PostMapping(path ="/buddies/del", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public RedirectView deleteBuddy(Long id) {
-        addressBook.deleteById(id);
-        return new RedirectView("/buddies");
+    @PostMapping(path ="/questions/del", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public RedirectView deleteQuestion(Long id) {
+        survey.deleteById(id);
+        return new RedirectView("/questions");
     }
 }
