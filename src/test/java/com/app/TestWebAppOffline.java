@@ -22,6 +22,6 @@ public class TestWebAppOffline {
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/questions")).andDo(print()).andExpect(status().isOk())
-                .andExpect(content().string(containsString("Address")));
+                .andExpect(content().string(containsString("Survey")));
     }
 }

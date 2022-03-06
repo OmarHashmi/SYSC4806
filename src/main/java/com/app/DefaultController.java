@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DefaultController {
     private final Survey survey;
 
-    DefaultController(Survey addressBook) {
-        this.survey = addressBook;
+    DefaultController(Survey survey) {
+        this.survey = survey;
     }
 
     @RequestMapping("/questions")
