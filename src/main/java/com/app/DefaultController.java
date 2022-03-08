@@ -17,4 +17,20 @@ public class DefaultController {
         model.addAttribute("questions", survey.findAll());
         return "questions";
     }
+
+    @RequestMapping("/poll")
+    public String poll(Model model) {
+        // To add variable to thymeleaf edit the command below
+        // 1st is the variable name, 2nd is the value of the variable
+        // model.addAttribute("questions", survey.findAll());
+        return "poll";
+    }
+
+    @RequestMapping("/results")
+    public String results(Model model) {
+        // To add variable to thymeleaf edit the command below
+        // 1st is the variable name, 2nd is the value of the variable
+        // model.addAttribute("questions", survey.findAll());
+        return "results";
+    }
 }
