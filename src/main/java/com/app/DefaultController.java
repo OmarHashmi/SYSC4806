@@ -28,7 +28,7 @@ public class DefaultController {
         // model.addAttribute("questions", survey.findAll());
         return "poll";
     }
-    @RequestMapping("/polls")
+    @RequestMapping("/submitAnswers")
     public String poll(@RequestParam(value = "answer") String answer,
                        Model model) {
         // To add variable to thymeleaf edit the command below
@@ -38,9 +38,9 @@ public class DefaultController {
         temp.setAnswer(answer);
         survey.save(temp);
         model.addAttribute("poll", temp);
+
         return "results";
     }
-
 
     @RequestMapping("/results")
     public String results(Model model) {
