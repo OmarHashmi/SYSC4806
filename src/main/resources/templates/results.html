@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th=":http://www.thymeleaf.or">
+<html lang="en">
+<style>
+    table {
+        border-collapse: separate;
+        border-spacing: 5px 0;
+    }
+
+    th {
+        background-color: #2c2c2c;
+        text-align: left;
+        color: white;
+    }
+
+    .display {
+        width: 200px;
+        text-align: left;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    h2 {
+        color: #000000;
+    }
+</style>
+<head>
+    <title>Results Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <h1>Results</h1>
+    <h2 th:text ="'Question Posed: ' + ${results[0].question}">n/a </h2>
+    <h3 th:text =" 'People Polled: ' + ${results.size}">n/a </h3>
+
+</head>
+<table>
+    <thead>
+        <tr>
+            <th class = "display"> ID</th>
+            <th class = "display"> Answer</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="result: ${results}">
+            <td class = "display" th:text="${result.id}">n/a</td>
+            <td class = "display"  th:text="${result.answer}"> n/a</td>
+        </tr>
+    </tbody>
+</table>
+<body>
+
+</body>
+</html>
