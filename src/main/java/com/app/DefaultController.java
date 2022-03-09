@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class DefaultController {
@@ -28,8 +29,8 @@ public class DefaultController {
         // model.addAttribute("questions", survey.findAll());
         return "poll";
     }
-    @RequestMapping("/polls")
-    public String poll(@RequestParam(value = "answer") String answer,
+    @RequestMapping("/submitAnswers")
+    public RedirectView poll(@RequestParam(value = "answer") String answer,
                        Model model) {
         // To add variable to thymeleaf edit the command below
         // 1st is the variable name, 2nd is the value of the variable
@@ -38,9 +39,9 @@ public class DefaultController {
         temp.setAnswer(answer);
         survey.save(temp);
         model.addAttribute("poll", temp);
-        return "results";
-    }
 
+		return new RedirectView("results");
+    }
 
     @RequestMapping("/results")
     public String results(Model model) {
