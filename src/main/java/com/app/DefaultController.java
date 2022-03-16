@@ -34,7 +34,6 @@ public class DefaultController {
         // 1st is the variable name, 2nd is the value of the variable
         Question temp = new Question();
         temp.setQuestion("What is your name?");
-        temp.setAnswer(answer);
         survey.save(temp);
         model.addAttribute("poll", temp);
 
