@@ -1,40 +1,42 @@
 package com.app;
+
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 
-public class Poll {
+public class Survey {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String question;
+    
     private String creator;
     @OneToMany(cascade = CascadeType.ALL)
-    private Collection<Question> questions;
+    private List<Question> questions;
 
     /*
      * A default constructor
      */
-    public Poll(){
-        this(null);
+    public Survey(){
+        this.creator = "Default";
+        this.questions = new ArrayList<>();
     }
 
     /*
      * A constructor
      * @param creator {String}
      */
-    public Poll(String creator){
-        this(creator, null);
+    public Survey(String creator){
+        this.creator = creator;
+        this.questions = new ArrayList<>();
     }
 
-    public Poll(String creator, Collection<Question> questions){
+    public Survey(String creator, List<Question> questions){
         this.creator = creator;
         this.questions = questions;
-
-
     }
+
     public Long getId() {
         return id;
     }
@@ -63,7 +65,7 @@ public class Poll {
      * Retrieve the list of questions
      * @returns {Collection<Question>}
      */
-    public Collection<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
@@ -71,9 +73,11 @@ public class Poll {
      * Sets the list of questions
      * @param questions {Collection<Question>}
      */
-    public void setQuestions(Collection<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
-
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
 }

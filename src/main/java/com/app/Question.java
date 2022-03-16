@@ -1,9 +1,7 @@
 package com.app;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,16 +15,13 @@ public class Question {
     @OneToMany
     protected List<Result> results;
 
-    protected Question() {}
-
-    public Question(Long id, String question) {
-        this.id = id;
-        this.question = question;
+    protected Question() {
+        results = new ArrayList<>();
     }
 
     public Question(String question) {
-        this.id = 0L;
         this.question = question;
+        results = new ArrayList<>();
     }
 
     public Long getId() {
@@ -45,12 +40,16 @@ public class Question {
         this.question = question;
     }
 
-    public List<Result> getResutls() {
+    public List<Result> getResults() {
         return results;
     }
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    public void addResult(Result result) {
+        results.add(result);
     }
 
     @Override
