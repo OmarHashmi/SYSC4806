@@ -10,14 +10,14 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class DefaultController {
     @Autowired
-    private final Survey survey;
+    private final Questions questions;
 
-    DefaultController(Survey survey) {
-        this.survey = survey;
+    DefaultController(Questions questions) {
+        this.questions = questions;
     }
     @RequestMapping("/questions")
     public String greeting(Model model) {
-        model.addAttribute("questions", survey.findAll());
+        model.addAttribute("questions", questions.findAll());
         return "questions";
     }
     @RequestMapping("/poll")
@@ -34,7 +34,7 @@ public class DefaultController {
         // 1st is the variable name, 2nd is the value of the variable
         Question temp = new Question();
         temp.setQuestion("What is your name?");
-        survey.save(temp);
+        questions.save(temp);
         model.addAttribute("poll", temp);
 
 		return new RedirectView("results");
@@ -45,7 +45,7 @@ public class DefaultController {
         // To add variable to thymeleaf edit the command below
         // 1st is the variable name, 2nd is the value of the variable
         // model.addAttribute("questions", survey.findAll());
-        model.addAttribute("results", survey.findAll());
+        model.addAttribute("results", questions.findAll());
         return "results";
     }
 }
