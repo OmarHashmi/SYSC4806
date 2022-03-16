@@ -11,9 +11,9 @@ public class Preload {
     private static final Logger log = LoggerFactory.getLogger(Preload.class);
 
     @Bean
-    CommandLineRunner initDatabase(Survey survey) {
+    CommandLineRunner initDatabase(Questions questions) {
         return args -> {
-            log.info("Preloading " + survey.save(new Question("What is your name?")));
+            log.info("Preloading " + questions.save(new Question("What is your name?")));
         };
     }
 }
