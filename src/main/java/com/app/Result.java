@@ -13,6 +13,10 @@ public class Result {
     private Question question;
 
 
+    Result(String answer){
+        this.answer = answer;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

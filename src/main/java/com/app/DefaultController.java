@@ -10,33 +10,30 @@ import org.springframework.web.servlet.view.RedirectView;
 @Controller
 public class DefaultController {
     @Autowired
-    private final Questions questions;
+    private final Surveys surveys;
 
-    DefaultController(Questions questions) {
-        this.questions = questions;
+    DefaultController(Surveys surveys) {
+        this.surveys = surveys;
     }
     @RequestMapping("/questions")
     public String greeting(Model model) {
-        model.addAttribute("questions", questions.findAll());
+        model.addAttribute("questions", surveys.findAll());
         return "questions";
     }
+
     @RequestMapping("/poll")
     public String poll(Model model) {
-        // To add variable to thymeleaf edit the command below
-        // 1st is the variable name, 2nd is the value of the variable
-        // model.addAttribute("questions", survey.findAll());
         return "poll";
     }
     @RequestMapping("/submitAnswers")
     public RedirectView poll(@RequestParam(value = "answer") String answer,
                        Model model) {
-        // To add variable to thymeleaf edit the command below
-        // 1st is the variable name, 2nd is the value of the variable
-        Question temp = new Question();
-        temp.setQuestion("What is your name?");
-        questions.save(temp);
-        model.addAttribute("poll", temp);
-
+//        // To add variable to thymeleaf edit the command below
+//        // 1st is the variable name, 2nd is the value of the variable
+//        Question temp = new Question();
+//        temp.setQuestion("What is your name?");
+//        surveys.save(temp);
+//        model.addAttribute("poll", temp);
 		return new RedirectView("results");
     }
 
@@ -45,7 +42,7 @@ public class DefaultController {
         // To add variable to thymeleaf edit the command below
         // 1st is the variable name, 2nd is the value of the variable
         // model.addAttribute("questions", survey.findAll());
-        model.addAttribute("results", questions.findAll());
+        model.addAttribute("questions", surveys.findById(1L).getQuestions());
         return "results";
     }
 }
