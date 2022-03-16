@@ -4,10 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Question {
+public class OptionsQuestion {
     @Id
     @GeneratedValue
     protected Long id;
@@ -17,16 +18,20 @@ public class Question {
     @OneToMany
     protected List<Result> results;
 
-    protected Question() {}
+    private ArrayList<String> answers;
 
-    public Question(Long id, String question) {
+    protected OptionsQuestion() {}
+
+    public OptionsQuestion(Long id, String question, ArrayList<String> answers) {
         this.id = id;
         this.question = question;
+        this.answers = answers;
     }
 
-    public Question(String question) {
+    public OptionsQuestion(String question, ArrayList<String> answers) {
         this.id = 0L;
         this.question = question;
+        this.answers = answers;
     }
 
     public Long getId() {
@@ -53,8 +58,16 @@ public class Question {
         this.results = results;
     }
 
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public String toString() {
-        return "com.app.Question [question=" + question + "]";
+        return "com.app.Question [question=" + this.question + ", answers=" + this.answers.toString() + "]";
     }
 }
