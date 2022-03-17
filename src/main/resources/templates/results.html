@@ -24,27 +24,66 @@
         color: #000000;
     }
 </style>
+<!--<head>-->
+<!--    <title>Results Page</title>-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
+<!--    <h1>Results</h1>-->
+<!--</head>-->
+<!--    <body>-->
+<!--        <h2 th:text ="'Question Posed: ' + ${results[0].question}">n/a </h2>-->
+<!--        <h3 th:text ="'People Polled: ' + ${results.size}">n/a </h3>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <tr>-->
+<!--                <th class = "display"> ID</th>-->
+<!--                <th class = "display"> Answer</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="result: ${results}">-->
+<!--                <td class = "display" th:text="${result.id}">n/a</td>-->
+<!--                <td class = "display"  th:text="${result.answer}"> n/a</td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </body>-->
+
 <head>
     <title>Results Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <h1>Results</h1>
 </head>
-    <body>
-        <h2 th:text ="'Question Posed: ' + ${results[0].question}">n/a </h2>
-        <h3 th:text ="'People Polled: ' + ${results.size}">n/a </h3>
-        <table>
-            <thead>
-            <tr>
-                <th class = "display"> ID</th>
-                <th class = "display"> Answer</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="result: ${results}">
-                <td class = "display" th:text="${result.id}">n/a</td>
-                <td class = "display"  th:text="${result.answer}"> n/a</td>
-            </tr>
-            </tbody>
-        </table>
-    </body>
+<body>
+<table>
+    <tr th:each ="survey: ${surveys}">
+        <td>
+            <h2 th:text ="'Survey: ' + ${survey.id}">n/a </h2>
+            <h3 th:text ="'Created by: ' + ${survey.creator}">n/a </h3>
+            <h3 th:text ="'Number of Questions: ' + ${survey.questions.size}">n/a </h3>
+            <table>
+                <tr th:each ="question: ${survey.questions}">
+                    <td valign="top">
+                        <h4 th:text ="'Question: ' + ${question.question}">n/a </h4>
+                        <h4 th:text ="'Number of Responses: ' + ${question.results.size}">n/a </h4>
+                    </td>
+                    <td>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class = "display">Responses</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each ="result: ${question.results}">
+                                    <td class = "display"  th:text="${result.answer}"> n/a</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
 </html>
