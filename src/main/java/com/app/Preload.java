@@ -34,15 +34,10 @@ public class Preload {
         Question q42 = new Question("Favorite Colour?");// No Results
         Question q43 = new Question("Favorite Game?");  // One Results
 
-        Result r11 = new Result("7");
-        Result r12 = new Result("14");
-
-        Result r31 = new Result("Legend of Zelda");
-
-        q32.addResult(r11);
-        q41.addResult(r11);
-        q41.addResult(r12);
-        q43.addResult(r31);
+        q32.addResult(new Result("7"));
+        q41.addResult(new Result("7"));
+        q41.addResult(new Result("14"));
+        q43.addResult(new Result("Legend of Zelda"));
 
         s2.addQuestion(q21);
 

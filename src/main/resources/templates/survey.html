@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Survey</h1>
+    <h2 th:text="'Owner: ' + ${survey.getCreator()}"></h2>
+    <h2 th:text="'Number Of Questions: ' + ${questions.size()}"></h2>
+
+    <form th:action="@{/submitAnswers} + '/' + ${survey.getId()}" method="post">
+        <th:block th:each="question : ${questions}">
+            <label th:for="${question.getId()}"><span th:text="${question.getQuestion()}"></span></label>
+            <input type="text" th:id="${question.getId()}" th:name="${question.getId()}" /><br>
+        </th:block>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
