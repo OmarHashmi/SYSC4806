@@ -12,7 +12,7 @@ public class Preload {
 
     @Bean
     CommandLineRunner initDatabase(Surveys surveys) {
-
+        preloadData(surveys);
 
         return args -> {
             log.info("Preloading Complete");

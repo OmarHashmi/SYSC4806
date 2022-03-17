@@ -9,9 +9,13 @@ public class Result {
     private Long id;
     private String answer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question")
     private Question question;
 
+    Result() {
+        this.answer = "Default";
+    }
 
     Result(String answer){
         this.answer = answer;
@@ -24,18 +28,12 @@ public class Result {
     public Long getId() {
         return id;
     }
+
     public String getAnswer() {
         return answer;
     }
 
     public void setAnswer(String answer) {
         this.answer = answer;
-    }
-    public Question getQuestions() {
-        return question;
-    }
-
-    public void setQuestions(Question questions) {
-        this.question = questions;
     }
 }

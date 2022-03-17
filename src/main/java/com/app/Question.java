@@ -9,19 +9,19 @@ public class Question {
     @Id
     @GeneratedValue
     protected Long id;
-
     protected String question;
 
-    @OneToMany
+    @OneToMany(mappedBy = "question", cascade = CascadeType.DETACH)
     protected List<Result> results;
 
     protected Question() {
-        results = new ArrayList<>();
+        this.question = "Default";
+        this.results = new ArrayList<>();
     }
 
     public Question(String question) {
         this.question = question;
-        results = new ArrayList<>();
+        this.results = new ArrayList<>();
     }
 
     public Long getId() {
@@ -49,7 +49,7 @@ public class Question {
     }
 
     public void addResult(Result result) {
-        results.add(result);
+        this.results.add(result);
     }
 
     @Override
