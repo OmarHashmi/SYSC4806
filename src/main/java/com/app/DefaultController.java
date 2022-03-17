@@ -1,15 +1,9 @@
 package com.app;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.view.RedirectView;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 @Controller
 public class DefaultController {
@@ -17,6 +11,12 @@ public class DefaultController {
 
     DefaultController(Surveys surveys) {
         this.surveys = surveys;
+    }
+
+    @RequestMapping("/")
+    public String index(Model model) {
+        model.addAttribute("surveys", surveys.findAll());
+        return "index";
     }
 
     @RequestMapping("/questions")
@@ -33,26 +33,6 @@ public class DefaultController {
         model.addAttribute("questions", s.getQuestions());
 
         return "survey";
-    }
-    @RequestMapping("/submitAnswers/{survey_id}")
-    public RedirectView poll(
-            @PathVariable("survey_id") long survey_id,
-            @RequestParam Map<String,String> allValues,
-            Model model) {
-
-        Survey s = surveys.getById(survey_id);
-        ArrayList<Question> qs = new ArrayList<>(s.getQuestions());
-
-        for (Map.Entry<String, String> entry : allValues.entrySet()) {
-            for (Question q : qs) {
-                if (q.id == Long.parseLong(entry.getKey())) {
-                    q.addResult(new Result(entry.getValue()));
-                }
-            }
-        }
-
-        surveys.save(s);
-		return new RedirectView("/results/" + survey_id, false);
     }
 
     @RequestMapping("/results")
