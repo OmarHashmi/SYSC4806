@@ -60,7 +60,7 @@ public class DefaultController {
         // To add variable to thymeleaf edit the command below
         // 1st is the variable name, 2nd is the value of the variable
         // model.addAttribute("questions", survey.findAll());
-        model.addAttribute("questions", surveys.findById(1L).getQuestions());
+        model.addAttribute("surveys", surveys.findAll());
         return "results";
     }
 }
