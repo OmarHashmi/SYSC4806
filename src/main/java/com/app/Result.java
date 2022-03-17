@@ -9,15 +9,11 @@ public class Result {
     private Long id;
     private String answer;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "question")
-    private Question question;
-
-    Result() {
+    public Result() {
         this.answer = "Default";
     }
 
-    Result(String answer){
+    public Result(String answer){
         this.answer = answer;
     }
 

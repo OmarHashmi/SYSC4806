@@ -11,7 +11,7 @@ public class Question {
     protected Long id;
     protected String question;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.DETACH)
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Result> results;
 
     protected Question() {
