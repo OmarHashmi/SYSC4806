@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.HashMap;
+import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
 public class RestController {
@@ -15,11 +15,28 @@ public class RestController {
         this.surveys = addressBook;
     }
 
+	@PostMapping(path ="/createSurveyPost", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+	public RedirectView newSurvey(@RequestParam HashMap<String,String> params) {
+
+		ArrayList<String> values = new ArrayList<String>(params.values());
+
+		Survey survey = new Survey(values.get(0));
+
+		for(int i=1;i<values.size();i+=2){
+			String type   = values.get(i);
+			String prompt = values.get(i+1);
+			Question q    = new Question(type,prompt);
+
+			survey.addQuestion(q);
+		}
+
+		surveys.save(survey);
+
+		return new RedirectView("/");
+	}
+
     @PostMapping(path ="/questions/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public RedirectView newQuestion(Question question) {
-//        Survey s = surveys.getById((long) 1);
-//        s.getQuestions().add(question);
-//        surveys.save(s);
         return new RedirectView("/buddies");
     }
 

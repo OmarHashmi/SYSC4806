@@ -80,4 +80,14 @@ public class Survey {
     public void addQuestion(Question question) {
         questions.add(question);
     }
+
+	public String toString(){
+		String str = "";
+
+		for(Question q: this.questions){
+			str += q.toString();
+		}
+
+		return str;
+	}
 }

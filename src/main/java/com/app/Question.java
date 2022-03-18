@@ -10,6 +10,7 @@ public class Question {
     @GeneratedValue
     protected Long id;
     protected String question;
+	protected String type;
 
     @OneToMany(cascade = CascadeType.ALL)
     protected List<Result> results;
@@ -19,10 +20,16 @@ public class Question {
         this.results = new ArrayList<>();
     }
 
-    public Question(String question) {
-        this.question = question;
-        this.results = new ArrayList<>();
-    }
+	public Question(String question) {
+		this.question = question;
+		this.results = new ArrayList<>();
+	}
+
+	public Question(String type, String question) {
+		this.type = type;
+		this.question = question;
+		this.results = new ArrayList<>();
+	}
 
     public Long getId() {
         return id;
@@ -31,6 +38,10 @@ public class Question {
     public void setId(Long id) {
         this.id = id;
     }
+
+	public String getType(){
+		return this.type;
+	}
 
     public String getQuestion() {
         return question;
