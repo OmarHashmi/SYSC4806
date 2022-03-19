@@ -35,12 +35,12 @@ public class DefaultController {
         return "survey";
     }
 
-    @RequestMapping("/results")
-    public String results(Model model) {
+    @RequestMapping("/results/{survey_id}")
+    public String results(Model model, @PathVariable("survey_id") long survey_id) {
         // To add variable to thymeleaf edit the command below
         // 1st is the variable name, 2nd is the value of the variable
         // model.addAttribute("questions", survey.findAll());
-        model.addAttribute("surveys", surveys.findAll());
+        model.addAttribute("surveys", surveys.findById(survey_id));
         return "results";
     }
 }
