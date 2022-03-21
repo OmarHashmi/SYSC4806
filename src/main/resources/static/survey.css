@@ -1,0 +1,132 @@
+:root {
+    --background: #18191a;
+    --background-container: #18191a;
+    --background-header: #2E4272;
+    --background-options: #2E4272;
+    --background-survey: #353637;
+    --foreground-text: aliceblue;
+    --foreground-text-questions: black;
+}
+
+body {
+    background-color: var(--background);
+}
+
+#container {
+    background-color: var(--background-container);
+    display: flex;
+    margin: 0 auto;
+    width: 80%;
+    flex-direction: column;
+}
+
+#header {
+    display: flex;
+    flex-direction: column;
+    margin:0 auto;
+    width: 100%;
+}
+
+#headerItems {
+    background-color: var(--background-header);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#company {
+    color: var(--foreground-text);
+    padding-left: 1%;
+}
+
+#logo {
+    color: var(--foreground-text);
+    margin: auto 0 auto auto;
+    padding-right: 1%;
+}
+
+#body {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1%;
+    width: 100%;
+}
+
+/*#optionList {*/
+/*    background-color: var(--background-options);*/
+/*    height: 100%;*/
+/*    display: block;*/
+/*    box-sizing: border-box;*/
+/*    padding-left: 10px;*/
+/*    padding-right: 10px;*/
+/*    padding-top: 10px;*/
+/*}*/
+
+#options {
+    background-color: var(--background-options);
+}
+
+.optionValue {
+    color: var(--foreground-text);
+    position: relative;
+    text-decoration: none;
+    top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#survey {
+    background-color: var(--background-survey);
+    padding-left: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    margin-left: 1%;
+    width: 100%;
+    height: 100%;
+}
+
+#surveyHeader {
+    color: var(--foreground-text);
+    display: flex;
+    flex-direction: column;
+}
+
+#surveyInfo {
+    display: flex;
+    flex-direction: row;
+}
+
+#surveyInfoNumberOfQuestions {
+    margin: auto 0 auto auto;
+}
+
+#surveyQuestions {
+    position: relative;
+}
+.question {
+    color: var(--foreground-text-questions);
+    background-color: var(--foreground-text);
+    border-radius: 5px;
+    padding-bottom: 1%;
+
+}
+
+.questionTitle {
+    padding-top: 1%;
+    margin-left: 1%;
+}
+
+.questionAnswer {
+    margin: -1% auto auto 1%;
+    border-radius: 5px;
+    width: 97%;
+    height: 30px;
+}
+
+#submit {
+    position: relative;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 3px 3px 3px 3px;
+    margin-top: 2%;
+}
