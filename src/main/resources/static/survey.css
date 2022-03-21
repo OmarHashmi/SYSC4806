@@ -52,16 +52,6 @@ body {
     width: 100%;
 }
 
-/*#optionList {*/
-/*    background-color: var(--background-options);*/
-/*    height: 100%;*/
-/*    display: block;*/
-/*    box-sizing: border-box;*/
-/*    padding-left: 10px;*/
-/*    padding-right: 10px;*/
-/*    padding-top: 10px;*/
-/*}*/
-
 #options {
     background-color: var(--background-options);
 }
