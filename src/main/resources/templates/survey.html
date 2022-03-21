@@ -1,21 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Survey</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/survey.css}">
 </head>
 <body>
-    <a href="/">Home</a><br>
-    <h1>Survey</h1>
-    <h2 th:text="'Owner: ' + ${survey.getCreator()}"></h2>
-    <h2 th:text="'Number Of Questions: ' + ${questions.size()}"></h2>
-
-    <form th:action="@{/submitAnswers} + '/' + ${survey.getId()}" method="post">
-        <th:block th:each="question : ${questions}">
-            <label th:for="${question.getId()}"><span th:text="${question.getQuestion()}"></span></label>
-            <input type="text" th:id="${question.getId()}" th:name="${question.getId()}" /><br>
-        </th:block>
-        <input type="submit" value="Submit">
-    </form>
+    <div id="container">
+        <div id="header">
+            <div id="headerItems">
+                <h1 id="company">MonkeySurvey*</h1>
+                <p id="logo">Replace with logo</p>
+            </div>
+        </div>
+        <div id="body">
+            <div id="options">
+                <a class="optionValue" href="/">Home</a><br>
+            </div>
+            <div id="survey">
+                <div id="surveyHeader">
+                    <h1 id="surveyTitle">Survey Title</h1>
+                    <div id="surveyInfo">
+                        <h2 id="surveyInfoOwner" th:text="'Owner: ' + ${survey.getCreator()}"></h2>
+                        <h2 id="surveyInfoNumberOfQuestions" th:text="'Number Of Questions: ' + ${questions.size()}"></h2>
+                    </div>
+                </div>
+                <form th:action="@{/submitAnswers} + '/' + ${survey.getId()}" method="post">
+                    <th:block th:each="question : ${questions}">
+                        <div class="question">
+                            <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                            <label th:for="${question.getId()}">
+                                <input class="questionAnswer" type="text" th:id="${question.getId()}" th:name="${question.getId()}" />
+                            </label>
+                        </div>
+                    </th:block>
+                    <input id="submit" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
