@@ -1,19 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Monkey Survey</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{index.css}">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/index.css}">
 </head>
 <body>
-    <h1>Monkey Survey</h1>
-    <table>
-        <th:block th:each="survey : ${surveys}">
-            <tr>
-                <td><a th:href="'/survey/' + ${survey.getId()}" th:text="'Survey ' + ${survey.getId()}"></a></td>
-                <td><a th:href="'/results/' + ${survey.getId()}" th:text="'Results ' + ${survey.getId()}"></a></td>
-            </tr>
-        </th:block>
-    </table>
+    <div id="container">
+        <div id="header">
+            <div id="headerItems">
+                <h1 id="company">MonkeySurvey*</h1>
+                <p id="logo">Replace with logo</p>
+            </div>
+        </div>
+        <div id="body">
+            <div id="options">
+                <a class="optionValue" href="/">Home</a>
+                <p><a class="optionValue" href="/">My Surveys</a></p>
+                <p><a class="optionValue" href="/">Login</a></p>
+            </div>
+            <div id="survey">
+                <h2 id="surveyTitle">Public Surveys</h2>
+                <table>
+                    <tr>
+                        <td><h3>Surveys</h3></td>
+                        <td><h3>Results</h3></td>
+                    </tr>
+                    <th:block th:each="survey : ${surveys}">
+                        <tr>
+                            <td><a class="surveyValue" th:href="'/survey/' + ${survey.getId()}" th:text="'Survey ' + ${survey.getId()}"></a></td>
+                            <td><a class="surveyValue" th:href="'/results/' + ${survey.getId()}" th:text="'Results ' + ${survey.getId()}"></a></td>
+                        </tr>
+                    </th:block>
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
