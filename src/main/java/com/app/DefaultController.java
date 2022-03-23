@@ -13,17 +13,16 @@ public class DefaultController {
         this.surveys = surveys;
     }
 
-    @RequestMapping("/")
+	@RequestMapping("/")
     public String index(Model model) {
         model.addAttribute("surveys", surveys.findAll());
         return "index";
     }
 
-    @RequestMapping("/questions")
-    public String greeting(Model model) {
-        model.addAttribute("questions", surveys.findAll());
-        return "questions";
-    }
+	@RequestMapping("/createSurvey")
+	public String createSurvey(Model model) {
+		return "createSurvey";
+	}
 
     @RequestMapping("/survey/{survey_id}")
     public String poll(Model model, @PathVariable("survey_id") long survey_id) {

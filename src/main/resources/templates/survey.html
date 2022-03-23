@@ -30,7 +30,7 @@
                         <div class="question">
                             <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
                             <label th:for="${question.getId()}">
-                                <input class="questionAnswer" type="text" th:id="${question.getId()}" th:name="${question.getId()}" />
+                                <input class="questionAnswer" th:type="${question.getType()}" th:id="${question.getId()}" th:name="${question.getId()}" />
                             </label>
                         </div>
                     </th:block>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <img th:src="@{/media/banner.gif}"/>
+    <title>Create a Survey</title>
+</head>
+<body>
+    <h1>Create a New Survey</h1>
+    <form id="form" action="/createSurveyPost" method="post">
+        <table id="name" class="table3"><tr>
+            <td>
+                <b>Name</b><br>
+                <label for="nameInput">Name: </label>
+                <input id="nameInput" type="text" name="name" required><br>
+            </td>
+            <td>
+                <img src="/media/name.gif">
+            </td>
+        </tr></table>
+    </form>
+    <br><br>
+    <input type="button" onclick="addQuestion()" value="Add Question">
+    <input type="submit" form="form" value="Submit">
+</body>
+</html>
+<script>
+    let numQuestions = 0;
+    addQuestion();
+
+    function addQuestion(){
+        numQuestions++;
+
+        let rand = numQuestions%4+1;
+
+        let str = "\n\n";
+        str+='<table class="table'+rand+'" id="q'+numQuestions+'"><tr>\n';
+            str+='<td>\n';
+            str+='<b>id = '+numQuestions+'</b><br>\n';
+
+            str+='<label for="t'+numQuestions+'">Type: </label>\n';
+            str+='<select id="t'+numQuestions+'" name="t'+numQuestions+'">\n';
+                str+='\t<option value="text">Text</option>\n';
+                str+='\t<option value="number">Number</option>\n';
+                str+='\t<option value="date">Date</option>\n';
+                str+='\t<option value="color">Color</option>\n';
+                str+='\t<option value="tel">Phone Number</option>\n';
+                str+='\t<option value="email">Email</option>\n';
+            str+='</select><br>\n';
+
+            str+='<label for="p'+numQuestions+'">Prompt: </label>\n';
+            str+='<input id="p'+numQuestions+'" type="text" name="p'+numQuestions+'" required><br>\n';
+
+            str+='<input type="button" onclick="removeQuestion('+numQuestions+')" value="Remove Question">\n';
+            str+='</td>\n';
+            str+='<td>\n';
+            str+='<img src="/media/'+(numQuestions%10)+'.gif">\n';
+            str+='</td>\n';
+        str+='</tr></table>\n';
+
+        //console.log(str);
+        document.getElementById("form").innerHTML += str;
+    }
+    function removeQuestion(i){
+        let element = document.getElementById("q"+i);
+        element.parentNode.removeChild(element);
+    }
+</script>
+<style>
+    @font-face {
+        font-family: "coolFont";
+        src: url("/media/childishalpha.ttf");
+    }
+    html{
+        font-family: "coolFont";
+        background: #39ff14;
+    }
+    table{
+        padding:20px;
+        border:2px solid black;
+        width: 50%;
+        margin:25px;
+        background:#ECE3A1;
+        border: solid black;
+        border-color: black;
+    }
+    .table1{
+        border-width: 3px 4px 3px 5px;
+        border-radius:95% 4% 92% 5%/4% 95% 6% 95%;
+        transform: rotate(2deg);
+    }
+    .table2{
+        border-width: 3px 3px 5px 5px;
+        border-radius:4% 95% 6% 95%/95% 4% 92% 5%;
+        transform: rotate(-2deg);
+    }
+    .table3{
+        border-width: 5px 3px 3px 5px;
+        border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
+        transform: rotate(-2.5deg);
+    }
+    .table4{
+        border-width: 5px 3px 3px 5px;
+        border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
+        transform: rotate(5deg);
+    }
+</style>
