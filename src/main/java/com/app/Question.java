@@ -12,7 +12,7 @@ public class Question {
     protected String question;
 	protected String type;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected List<Result> results;
 
     protected Question() {
