@@ -3,6 +3,10 @@
 <head>
     <title>Monkey Survey</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <script defer type="application/javascript" th:src="@{/index.js}"></script>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/webjars/js-cookie/js.cookie.js"></script>
     <link rel="stylesheet" th:href="@{/index.css}">
 </head>
 <body>
@@ -17,7 +21,13 @@
             <div id="options">
                 <a class="optionValue" href="/">Home</a>
                 <p><a class="optionValue" href="/">My Surveys</a></p>
-                <p><a class="optionValue" href="/">Login</a></p>
+                <p class="unauthenticated"><a class="optionValue" href="/oauth2/authorization/github">Login</a></p>
+                <div class="authenticated">
+                    <p><span class="optionValue" id="user"></span></p>
+                    <div>
+                        <button onClick="logout()">Logout</button>
+                    </div>
+                </div>
             </div>
             <div id="survey">
                 <h2 id="surveyTitle">Public Surveys</h2>
