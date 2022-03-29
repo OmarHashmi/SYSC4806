@@ -19,9 +19,8 @@
             </div>
             <div id="survey">
                 <div id="surveyHeader">
-                    <h1 id="surveyTitle">Survey Title</h1>
+                    <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
                     <div id="surveyInfo">
-                        <h2 id="surveyInfoOwner" th:text="'Owner: ' + ${survey.getCreator()}"></h2>
                         <h2 id="surveyInfoNumberOfQuestions" th:text="'Number Of Questions: ' + ${questions.size()}"></h2>
                     </div>
                 </div>

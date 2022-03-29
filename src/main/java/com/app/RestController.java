@@ -1,6 +1,13 @@
 package com.app;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -8,7 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.util.*;
 
 @org.springframework.web.bind.annotation.RestController
-public class RestController {
+public class RestController extends WebSecurityConfigurerAdapter {
     private final Surveys surveys;
 
     RestController(Surveys addressBook) {
@@ -34,6 +41,35 @@ public class RestController {
 
 		return new RedirectView("/");
 	}
+
+    @GetMapping("/user")
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        return Collections.singletonMap("name", principal.getAttribute("name"));
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests(a -> a
+                                .antMatchers(
+                                        "/",
+                                        "/*.css",
+                                        "/*.js",
+                                        "/createSurveyPost",
+                                        "/questions/**",
+                                        "/submitAnswers/**",
+                                        "/survey/**",
+                                        "/results/**",
+                                        "/webjars/**").permitAll()
+                                .anyRequest().authenticated()
+                ).logout(l -> l
+                                .logoutSuccessUrl("/").permitAll()
+                ).csrf(c -> c
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                )
+                .exceptionHandling(e -> e
+                                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                                .oauth2Login();
+    }
 
     @PostMapping(path ="/questions/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public RedirectView newQuestion(Question question) {

@@ -1,6 +1,5 @@
 package com.app;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -8,29 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
-import java.lang.reflect.Array;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class TestWebApp {
@@ -69,7 +51,7 @@ public class TestWebApp {
         Survey survey = new Survey("Test");
         surveyRepo.save(survey);
         List<Survey> test = surveyRepo.findAll();
-        assertThat(test.get(test.size()-1).getCreator()).isEqualTo("Test");
+        assertThat(test.get(test.size()-1).getSurveyName()).isEqualTo("Test");
     }
     @Test
     public void testDeletingSurvey() throws Exception {
@@ -78,7 +60,7 @@ public class TestWebApp {
         List<Survey> test = surveyRepo.findAll();
         surveyRepo.delete(survey);
         List<Survey> test1 = surveyRepo.findAll();
-        assertThat(test.get(test1.size()).getCreator()).isNotEqualTo(test.size());
+        assertThat(test.get(test1.size()).getSurveyName()).isNotEqualTo(test.size());
     }
     @Test
     public void testPersistQuestions() throws Exception {
