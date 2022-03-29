@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
 public class Survey {
+    public static final long publicID = -1;
+
     @Id
     @GeneratedValue
     private Long id;
-    
-    private String creator;
+    private Long userID;
+    private String surveyName;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
 
@@ -19,7 +20,8 @@ public class Survey {
      * A default constructor
      */
     public Survey(){
-        this.creator = "Default";
+        this.userID = publicID; // Default -1L = Public
+        this.surveyName = "Default";
         this.questions = new ArrayList<>();
     }
 
@@ -27,13 +29,24 @@ public class Survey {
      * A constructor
      * @param creator {String}
      */
-    public Survey(String creator){
-        this.creator = creator;
+    public Survey(String surveyName){
+        this.userID = publicID;
+        this.surveyName = surveyName;
         this.questions = new ArrayList<>();
     }
 
-    public Survey(String creator, List<Question> questions){
-        this.creator = creator;
+    /*
+     * A constructor
+     * @param creator {String}
+     */
+    public Survey(Long userID, String surveyName){
+        this.userID = userID;
+        this.surveyName = surveyName;
+        this.questions = new ArrayList<>();
+    }
+
+    public Survey(String surveyName, List<Question> questions){
+        this.surveyName = surveyName;
         this.questions = questions;
     }
 
@@ -49,16 +62,24 @@ public class Survey {
      * Retrieve the creator
      * @returns {String}
      */
-    public String getCreator() {
-        return this.creator;
+    public String getSurveyName() {
+        return this.surveyName;
     }
 
     /*
      * Sets the creator
      * @param creator {String}
      */
-    public void setCreator(String creator) {
-        this.creator = creator;
+    public void setSurveyName(String creator) {
+        this.surveyName = creator;
+    }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     /*

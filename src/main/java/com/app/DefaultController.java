@@ -15,7 +15,7 @@ public class DefaultController {
 
 	@RequestMapping("/")
     public String index(Model model) {
-        model.addAttribute("surveys", surveys.findAll());
+        model.addAttribute("surveys", surveys.findByUserID(Survey.publicID));
         return "index";
     }
 
@@ -26,7 +26,7 @@ public class DefaultController {
 
     @RequestMapping("/survey/{survey_id}")
     public String poll(Model model, @PathVariable("survey_id") long survey_id) {
-        Survey s = surveys.getById(survey_id);
+        Survey s = surveys.findByUserIDAndId(Survey.publicID, survey_id);
 
         model.addAttribute("survey", s);
         model.addAttribute("questions", s.getQuestions());
