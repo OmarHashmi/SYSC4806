@@ -39,6 +39,11 @@ public class Preload {
         q41.addResult(new Result("14"));
         q43.addResult(new Result("Legend of Zelda"));
 
+        s1.setClosed(false);
+        s2.setClosed(false);
+        s3.setClosed(false);
+        s4.setClosed(true);
+
         s2.addQuestion(q21);
 
         s3.addQuestion(q32);

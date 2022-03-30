@@ -18,28 +18,31 @@ import java.util.*;
 public class RestController extends WebSecurityConfigurerAdapter {
     private final Surveys surveys;
 
-    RestController(Surveys addressBook) {
-        this.surveys = addressBook;
+    RestController(Surveys surveys) {
+        this.surveys = surveys;
     }
 
-	@PostMapping(path ="/createSurveyPost", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-	public RedirectView newSurvey(@RequestParam HashMap<String,String> params) {
+	@PostMapping(path ="/createSurveyPost")
+	public RedirectView newSurvey(@RequestParam HashMap<String,String> params,
+                                  @AuthenticationPrincipal OAuth2User principal) {
 
-		ArrayList<String> values = new ArrayList<String>(params.values());
+        if (principal != null) {
+            ArrayList<String> values = new ArrayList<String>(params.values());
 
-		Survey survey = new Survey(values.get(0));
+            Survey survey = new Survey(((Integer)principal.getAttribute("id")).longValue(),values.get(1));
 
-		for(int i=1;i<values.size();i+=2){
-			String type   = values.get(i);
-			String prompt = values.get(i+1);
-			Question q    = new Question(type,prompt);
+            for(int i=2;i<values.size();i+=2){
+                String type   = values.get(i);
+                String prompt = values.get(i+1);
+                Question q    = new Question(type,prompt);
 
-			survey.addQuestion(q);
-		}
+                survey.addQuestion(q);
+            }
 
-		surveys.save(survey);
+            surveys.save(survey);
 
-		return new RedirectView("/");
+        }
+		return new RedirectView("/mySurveys");
 	}
 
     @GetMapping("/user")
@@ -99,5 +102,26 @@ public class RestController extends WebSecurityConfigurerAdapter {
 
         surveys.save(s);
         return new RedirectView("/results/" + survey_id, false);
+    }
+
+    @PostMapping("/closeSurveys")
+    public RedirectView closeSurveys(@RequestParam HashMap<String,String> params,
+                                  @AuthenticationPrincipal OAuth2User principal) {
+
+        for (Map.Entry<String, String> e: params.entrySet()) {
+            try {
+                Survey s = surveys.getById(Long.valueOf(e.getKey()));
+                if (e.getValue().compareTo("on") == 0) {
+                    s.setClosed(false);
+                } else {
+                    s.setClosed(true);
+                }
+                surveys.save(s);
+            } catch (NumberFormatException num) {
+                System.out.println("No survey exists with id: " + e.getKey());
+            }
+        }
+
+        return new RedirectView("/mySurveys");
     }
 }
