@@ -11,23 +11,27 @@ public class Question {
     protected Long id;
     protected String question;
 	protected String type;
+    protected boolean mandatory;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     protected List<Result> results;
 
     protected Question() {
         this.question = "Default";
+        this.mandatory = false;
         this.results = new ArrayList<>();
     }
 
 	public Question(String question) {
 		this.question = question;
+        this.mandatory = false;
 		this.results = new ArrayList<>();
 	}
 
 	public Question(String type, String question) {
 		this.type = type;
 		this.question = question;
+        this.mandatory = false;
 		this.results = new ArrayList<>();
 	}
 
@@ -49,6 +53,14 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
+    }
+
+    public boolean isMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory) {
+        this.mandatory = mandatory;
     }
 
     public List<Result> getResults() {

@@ -1,61 +1,27 @@
 package com.app;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-public class OptionsQuestion {
-    @Id
-    @GeneratedValue
-    protected Long id;
+public class OptionsQuestion extends Question {
+    protected ArrayList<String> answers;
+    protected boolean multipleSelect;
 
-    protected String question;
-
-    @OneToMany
-    protected List<Result> results;
-
-    private ArrayList<String> answers;
-
-    protected OptionsQuestion() {}
-
-    public OptionsQuestion(Long id, String question, ArrayList<String> answers) {
-        this.id = id;
-        this.question = question;
-        this.answers = answers;
+    protected OptionsQuestion() {
+        super();
     }
 
     public OptionsQuestion(String question, ArrayList<String> answers) {
-        this.id = 0L;
-        this.question = question;
+        super(question);
         this.answers = answers;
+        this.multipleSelect = false;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public List<Result> getResutls() {
-        return results;
-    }
-
-    public void setResults(List<Result> results) {
-        this.results = results;
+    public OptionsQuestion(String type, String question, ArrayList<String> answers) {
+        super(type, question);
+        this.answers = answers;
+        this.multipleSelect = false;
     }
 
     public ArrayList<String> getAnswers() {
@@ -66,8 +32,20 @@ public class OptionsQuestion {
         this.answers = answers;
     }
 
+    public void addAnswer(String answer) {
+        this.answers.add(answer);
+    }
+
+    public boolean isMultipleSelect() {
+        return multipleSelect;
+    }
+
+    public void setMultipleSelect(boolean multipleSelect) {
+        this.multipleSelect = multipleSelect;
+    }
+
     @Override
     public String toString() {
-        return "com.app.Question [question=" + this.question + ", answers=" + this.answers.toString() + "]";
+        return "com.app.OptionQuestion [question=" + this.question + ", answers=" + this.answers.toString() + "]";
     }
 }
