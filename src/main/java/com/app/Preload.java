@@ -20,10 +20,10 @@ public class Preload {
     }
 
     private void preloadData(Surveys surveys) {
-        Survey s1 = new Survey("Billy"); // No Questions
-        Survey s2 = new Survey("Joe");   // One Questions
-        Survey s3 = new Survey("Timmy"); // Two Questions
-        Survey s4 = new Survey("Zelda"); // Three Questions
+        Survey s1 = new Survey("Where?"); // No Questions
+        Survey s2 = new Survey("Why?");   // One Questions
+        Survey s3 = new Survey("How?"); // Two Questions
+        Survey s4 = new Survey("Sorta real survey"); // Three Questions
 
         Question q21 = new Question("Favorite Number?"); // No Results
 
