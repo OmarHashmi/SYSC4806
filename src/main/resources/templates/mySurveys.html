@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<style>
+    table {
+        border-collapse: separate;
+        border-spacing: 5px 0;
+    }
+
+    th {
+        background-color: #2c2c2c;
+        text-align: left;
+        color: white;
+    }
+
+    .display {
+        width: 200px;
+        text-align: left;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    h2 {
+        color: #000000;
+    }
+</style>
+
+<head>
+    <title>My Surveys</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/mySurveys.css}">
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="headerItems">
+                <h1 id="company">MonkeySurvey*</h1>
+                <p id="logo">Replace with logo</p>
+            </div>
+        </div>
+
+        <div id="body">
+            <div id="options">
+                <a class="optionValue" href="/">Home</a>
+                <p class="optionValue"><a class="optionValue" href="/createSurvey">Create Survey</a></p>
+            </div>
+            <div id="survey">
+                <h2 id="surveyTitle">My Surveys</h2>
+                <form id="form" th:action="@{/closeSurveys}" method="post">
+                    <table>
+                        <tr>
+                            <td><h3>Survey ID</h3></td>
+                            <td><h3>Visibility (Checked is Open)</h3></td>
+                        </tr>
+                        <th:block th:each="survey : ${surveys}">
+                            <tr>
+                                <td><a class="surveyValue" th:text="${survey.id}"></a></td>
+                                <td><input type="checkbox" th:name="${survey.id}" th:checked="${not survey.closed}"/></td>
+                                <input id="testNameHidden" type="hidden" value='off' th:name="${survey.id}">
+                            </tr>
+                        </th:block>
+                    </table>
+                    <input type="submit" form="form" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

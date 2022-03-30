@@ -13,6 +13,8 @@ public class Survey {
     private Long id;
     private Long userID;
     private String surveyName;
+    private boolean closed;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Question> questions;
 
@@ -23,6 +25,7 @@ public class Survey {
         this.userID = publicID; // Default -1L = Public
         this.surveyName = "Default";
         this.questions = new ArrayList<>();
+        this.closed = true;
     }
 
     /*
@@ -33,6 +36,7 @@ public class Survey {
         this.userID = publicID;
         this.surveyName = surveyName;
         this.questions = new ArrayList<>();
+        this.closed = true;
     }
 
     /*
@@ -43,11 +47,13 @@ public class Survey {
         this.userID = userID;
         this.surveyName = surveyName;
         this.questions = new ArrayList<>();
+        this.closed = true;
     }
 
     public Survey(String surveyName, List<Question> questions){
         this.surveyName = surveyName;
         this.questions = questions;
+        this.closed = true;
     }
 
     public Long getId() {
@@ -102,7 +108,15 @@ public class Survey {
         questions.add(question);
     }
 
-	public String toString(){
+    public boolean isClosed() {
+        return closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
+    }
+
+    public String toString(){
 		String str = "";
 
 		for(Question q: this.questions){
