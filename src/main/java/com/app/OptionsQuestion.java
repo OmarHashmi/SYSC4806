@@ -19,7 +19,7 @@ public class OptionsQuestion extends Question {
     }
 
     public OptionsQuestion(String type, String question, ArrayList<String> answers) {
-        super(type, question);
+        super(question);
         this.answers = answers;
         this.multipleSelect = false;
     }

@@ -25,14 +25,14 @@ public class Preload {
         Survey s3 = new Survey("How?"); // Two Questions
         Survey s4 = new Survey("Sorta real survey"); // Three Questions
 
-        Question q21 = new Question("Favorite Number?"); // No Results
+        SingleQuestion q21 = new SingleQuestion("Favorite Number?"); // No Results
 
-        Question q32 = new Question("Favorite Colour?");// One Results
-        Question q33 = new Question("Favorite Game?");  // No Results
+        SingleQuestion q32 = new SingleQuestion("Favorite Colour?");// One Results
+        SingleQuestion q33 = new SingleQuestion("Favorite Game?");  // No Results
 
-        Question q41 = new Question("Favorite Number?");// Two Results
-        Question q42 = new Question("Favorite Colour?");// No Results
-        Question q43 = new Question("Favorite Game?");  // One Results
+        SingleQuestion q41 = new SingleQuestion("Favorite Number?");// Two Results
+        SingleQuestion q42 = new SingleQuestion("Favorite Colour?");// No Results
+        SingleQuestion q43 = new SingleQuestion("Favorite Game?");  // One Results
 
         q32.addResult(new Result("7"));
         q41.addResult(new Result("7"));

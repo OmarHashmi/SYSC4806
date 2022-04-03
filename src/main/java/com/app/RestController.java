@@ -34,7 +34,7 @@ public class RestController extends WebSecurityConfigurerAdapter {
             for(int i=2;i<values.size();i+=2){
                 String type   = values.get(i);
                 String prompt = values.get(i+1);
-                Question q    = new Question(type,prompt);
+                SingleQuestion q    = new SingleQuestion(type,prompt);
 
                 survey.addQuestion(q);
             }
@@ -75,7 +75,7 @@ public class RestController extends WebSecurityConfigurerAdapter {
     }
 
     @PostMapping(path ="/questions/add", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-    public RedirectView newQuestion(Question question) {
+    public RedirectView newQuestion(SingleQuestion question) {
         return new RedirectView("/buddies");
     }
 

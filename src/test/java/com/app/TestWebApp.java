@@ -65,8 +65,8 @@ public class TestWebApp {
     @Test
     public void testPersistQuestions() throws Exception {
         Survey survey = new Survey("Test");
-        Question question = new Question("Does this work");
-        survey.addQuestion(question);
+        SingleQuestion singleQuestion = new SingleQuestion("Does this work");
+        survey.addQuestion(singleQuestion);
         surveyRepo.save(survey);
         List<Survey> test = surveyRepo.findAll();
         Survey main = test.get(test.size()-1);
@@ -75,8 +75,8 @@ public class TestWebApp {
     @Test
     public void testPersistQuestionsString() throws Exception {
         Survey survey = new Survey("Test");
-        Question question = new Question("Does this work");
-        survey.addQuestion(question);
+        SingleQuestion singleQuestion = new SingleQuestion("Does this work");
+        survey.addQuestion(singleQuestion);
         surveyRepo.save(survey);
         List<Survey> test = surveyRepo.findAll();
         Survey main = test.get(test.size()-1);
@@ -86,8 +86,8 @@ public class TestWebApp {
     @Test
     public void testFindAll() throws Exception {
         Survey survey = new Survey("Test");
-        Question question = new Question("Does this work");
-        survey.addQuestion(question);
+        SingleQuestion singleQuestion = new SingleQuestion("Does this work");
+        survey.addQuestion(singleQuestion);
         surveyRepo.save(survey);
         List<Survey> test = surveyRepo.findAll();
         Survey main = test.get(test.size()-1);
