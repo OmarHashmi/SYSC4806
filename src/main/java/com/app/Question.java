@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Question {
+public abstract class Question {
     @Id
     @GeneratedValue
     protected Long id;
     protected String question;
-	protected String type;
     protected boolean mandatory;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -22,18 +21,11 @@ public class Question {
         this.results = new ArrayList<>();
     }
 
-	public Question(String question) {
-		this.question = question;
+    public Question(String question) {
+        this.question = question;
         this.mandatory = false;
-		this.results = new ArrayList<>();
-	}
-
-	public Question(String type, String question) {
-		this.type = type;
-		this.question = question;
-        this.mandatory = false;
-		this.results = new ArrayList<>();
-	}
+        this.results = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -42,10 +34,6 @@ public class Question {
     public void setId(Long id) {
         this.id = id;
     }
-
-	public String getType(){
-		return this.type;
-	}
 
     public String getQuestion() {
         return question;
