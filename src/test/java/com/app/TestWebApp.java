@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -93,6 +94,50 @@ public class TestWebApp {
         Survey main = test.get(test.size()-1);
         assertThat(test.size()).isEqualTo(7);
 
+    }
+    @Test
+    public void testDatAnalysisTopResult() throws Exception {
+        Survey survey = new Survey("Test");
+        Question question = new Question("Does this work");
+        Result result1 = new Result("red");
+        Result result2 = new Result("blue");
+        Result result3 = new Result("blue");
+        survey.addQuestion(question);
+        question.addResult(result1);
+        question.addResult(result2);
+        question.addResult(result3);
+        surveyRepo.save(survey);
+        ArrayList<CountPair> test = question.analyseResults();
+        for(Result result: question.getResults()){
+            System.out.println(result.getAnswer());
+        }
+        for (CountPair pair: test) {
+            System.out.println(pair.result + pair.count);
+        }
+        System.out.println();
+        assertThat(test.get(0).getResult() == "blue");
+    }
+    @Test
+    public void testDatAnalysisBottomResult() throws Exception {
+        Survey survey = new Survey("Test");
+        Question question = new Question("Does this work");
+        Result result1 = new Result("red");
+        Result result2 = new Result("blue");
+        Result result3 = new Result("blue");
+        survey.addQuestion(question);
+        question.addResult(result1);
+        question.addResult(result2);
+        question.addResult(result3);
+        surveyRepo.save(survey);
+        ArrayList<CountPair> test = question.analyseResults();
+        for(Result result: question.getResults()){
+            System.out.println(result.getAnswer());
+        }
+        for (CountPair pair: test) {
+            System.out.println(pair.result + pair.count);
+        }
+        System.out.println();
+        assertThat(test.get(1).getResult() == "red");
     }
 
    /* @Test
