@@ -1,11 +1,14 @@
 package com.app;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.ArrayList;
 
 @Controller
 public class DefaultController {
@@ -29,8 +32,21 @@ public class DefaultController {
     @RequestMapping("/survey/{survey_id}")
     public String poll(Model model, @PathVariable("survey_id") long survey_id) {
         Survey s = surveys.findById(survey_id);
+        ArrayList<SingleQuestion> stringQuestions = new ArrayList<>();
+        ArrayList<OptionsQuestion> optionQuestions = new ArrayList<>();
+
+        for (Question q : s.getQuestions()) {
+            if (q instanceof OptionsQuestion) {
+                optionQuestions.add((OptionsQuestion)q);
+            } else {
+                stringQuestions.add((SingleQuestion)q);
+            }
+        }
+
         model.addAttribute("survey", s);
-        model.addAttribute("questions", s.getQuestions());
+        model.addAttribute("surveySize", s.getQuestions().size());
+        model.addAttribute("stringQuestions", stringQuestions);
+        model.addAttribute("optionQuestions", optionQuestions);
 
         return "survey";
     }

@@ -11,8 +11,9 @@ public abstract class Question {
     protected Long id;
     protected String question;
     protected boolean mandatory;
+    private String type;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Result> results;
 
     protected Question() {

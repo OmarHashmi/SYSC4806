@@ -18,10 +18,10 @@ public class OptionsQuestion extends Question {
         this.multipleSelect = false;
     }
 
-    public OptionsQuestion(String type, String question, ArrayList<String> answers) {
+    public OptionsQuestion(boolean multipleSelect, String question, ArrayList<String> answers) {
         super(question);
         this.answers = answers;
-        this.multipleSelect = false;
+        this.multipleSelect = multipleSelect;
     }
 
     public ArrayList<String> getAnswers() {
