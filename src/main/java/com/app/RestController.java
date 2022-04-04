@@ -9,6 +9,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -85,18 +86,19 @@ public class RestController extends WebSecurityConfigurerAdapter {
         return new RedirectView("/questions");
     }
 
-    @PostMapping("/submitAnswers/{survey_id}")
+    @PostMapping(path = "/submitAnswers/{survey_id}", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public RedirectView poll(
             @PathVariable("survey_id") long survey_id,
-            @RequestParam HashMap<String,String> allValues,
+            @RequestParam MultiValueMap<String, String> allValues,
             Model model) {
 
         Survey s = surveys.getById(survey_id);
 
         for (Question q : s.getQuestions()) {
             String questionId = q.getId().toString();
-            if (allValues.containsKey(questionId)) {
-                q.addResult(new Result(allValues.get(questionId)));
+            if (allValues.get(questionId) == null) continue;
+            for (String result : allValues.get(questionId)) {
+                q.addResult(new Result(result));
             }
         }
 

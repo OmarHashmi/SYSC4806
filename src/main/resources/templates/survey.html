@@ -21,18 +21,38 @@
                 <div id="surveyHeader">
                     <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
                     <div id="surveyInfo">
-                        <h2 id="surveyInfoNumberOfQuestions" th:text="'Number Of Questions: ' + ${questions.size()}"></h2>
+                        <h2 id="surveyInfoNumberOfQuestions" th:text="'Number Of Questions: ' + ${surveySize}"></h2>
                     </div>
                 </div>
                 <form th:action="@{/submitAnswers} + '/' + ${survey.getId()}" method="post">
-                    <th:block th:each="question : ${questions}">
-                        <div class="question">
-                            <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                    <div class="question" th:each="question : ${stringQuestions}">
+                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
                             <label th:for="${question.getId()}">
-                                <input class="questionAnswer" th:type="${question.getType()}" th:id="${question.getId()}" th:name="${question.getId()}" />
+                                <input th:if="${question.isMandatory()}" class="questionAnswer" th:type="${question.getType()}" th:id="${question.getId()}" th:name="${question.getId()}" required/>
+                                <input th:if="${!question.isMandatory()}" class="questionAnswer" th:type="${question.getType()}" th:id="${question.getId()}" th:name="${question.getId()}"/>
                             </label>
-                        </div>
-                    </th:block>
+                    </div>
+                    <div class="question" th:each="question : ${optionQuestions}">
+                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                        <th:block th:switch="${question.isMultipleSelect()}">
+                            <label th:case="false" th:for="${question.getId()}">
+                                <select th:if="${question.isMandatory()}" th:id="${question.getId()}" th:name="${question.getId()}" required>
+                                    <option th:each="answer : ${question.getAnswers()}" th:value="${answer}" th:text="${answer}"></option>
+                                </select>
+                                <select th:if="${!question.isMandatory()}" th:id="${question.getId()}" th:name="${question.getId()}">
+                                    <option th:each="answer : ${question.getAnswers()}" th:value="${answer}" th:text="${answer}"></option>
+                                </select>
+                            </label>
+                            <label th:case="true" th:for="${question.getId()}">
+                                <select th:if="${question.isMandatory()}" th:id="${question.getId()}" th:name="${question.getId()}" multiple required>
+                                    <option th:each="answer : ${question.getAnswers()}" th:value="${answer}" th:text="${answer}"></option>
+                                </select>
+                                <select th:if="${!question.isMandatory()}" th:id="${question.getId()}" th:name="${question.getId()}" multiple>
+                                    <option th:each="answer : ${question.getAnswers()}" th:value="${answer}" th:text="${answer}"></option>
+                                </select>
+                            </label>
+                        </th:block>
+                    </div>
                     <input id="submit" type="submit" value="Submit">
                 </form>
             </div>
