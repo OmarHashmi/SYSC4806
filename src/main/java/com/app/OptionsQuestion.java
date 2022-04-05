@@ -1,5 +1,6 @@
 package com.app;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 

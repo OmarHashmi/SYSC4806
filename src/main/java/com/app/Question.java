@@ -1,8 +1,13 @@
 package com.app;
 
+import org.springframework.data.util.Pair;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
 
 @Entity
 public abstract class Question {
@@ -62,6 +67,31 @@ public abstract class Question {
 
     public void addResult(Result result) {
         this.results.add(result);
+    }
+
+    public ArrayList<CountPair> analyseResults(){
+        ArrayList<CountPair> sortedCounts = new ArrayList<>();
+        for (Result result:results) {
+            boolean check = true;
+            for(CountPair pair: sortedCounts){
+                if( pair.getResult() == result.getAnswer()) {
+                    check = false;
+                }
+            }
+            if(check){
+                CountPair counted = new CountPair(result.getAnswer());
+                for (Result innerResult: results) {
+                    if((result.getAnswer() == innerResult.getAnswer()) && (result.getId() != innerResult.getId())){
+                        System.out.println("Got Inside Increment if");
+                        counted.increment();
+                    }
+                }
+                sortedCounts.add(counted);
+            }
+        }
+        sortedCounts.sort(Comparator.comparingInt(CountPair::getCount));
+        Collections.reverse(sortedCounts);
+        return sortedCounts;
     }
 
     @Override
