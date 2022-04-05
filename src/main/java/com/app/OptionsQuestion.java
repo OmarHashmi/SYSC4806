@@ -1,40 +1,50 @@
 package com.app;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
 @Entity
 public class OptionsQuestion extends Question {
-    protected ArrayList<String> answers;
+    protected ArrayList<String> options;
     protected boolean multipleSelect;
 
     protected OptionsQuestion() {
         super();
     }
 
-    public OptionsQuestion(String question, ArrayList<String> answers) {
-        super(question);
-        this.answers = answers;
-        this.multipleSelect = false;
+	public OptionsQuestion(String type,String question, ArrayList<String> options) {
+		super(question);
+		this.options = options;
+
+		if(type.equals("radio")){
+			this.multipleSelect = false;
+		}
+		else if(type.equals("checkbox")){
+			this.multipleSelect = true;
+		}
+	}
+
+	public OptionsQuestion(boolean multipleSelect, String question, ArrayList<String> answers) {
+		super(question);
+		this.options = answers;
+		this.multipleSelect = multipleSelect;
+	}
+
+	public OptionsQuestion(String type, String question, ArrayList<String> options, boolean required) {
+		super(type,question,required);
+		this.options = options;
+	}
+
+    public ArrayList<String> getOptions() {
+        return options;
     }
 
-    public OptionsQuestion(boolean multipleSelect, String question, ArrayList<String> answers) {
-        super(question);
-        this.answers = answers;
-        this.multipleSelect = multipleSelect;
-    }
-
-    public ArrayList<String> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(ArrayList<String> answers) {
-        this.answers = answers;
+    public void setOptions(ArrayList<String> options) {
+        this.options = options;
     }
 
     public void addAnswer(String answer) {
-        this.answers.add(answer);
+        this.options.add(answer);
     }
 
     public boolean isMultipleSelect() {
@@ -47,6 +57,6 @@ public class OptionsQuestion extends Question {
 
     @Override
     public String toString() {
-        return "com.app.OptionQuestion [question=" + this.question + ", answers=" + this.answers.toString() + "]";
+        return "com.app.OptionQuestion [question=" + this.question + ", answers=" + this.options.toString() + "]";
     }
 }

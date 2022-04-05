@@ -1,7 +1,5 @@
 package com.app;
 
-import org.springframework.data.util.Pair;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,23 +13,44 @@ public abstract class Question {
     @GeneratedValue
     protected Long id;
     protected String question;
-    protected boolean mandatory;
-    private String type;
+    protected boolean required;
+    protected String type;
+	protected String html;
+
+	public String getHTML() {
+		return html;
+	}
 
     @OneToMany(cascade = CascadeType.ALL)
     protected List<Result> results;
 
     protected Question() {
         this.question = "Default";
-        this.mandatory = false;
+        this.required = false;
         this.results = new ArrayList<>();
     }
 
-    public Question(String question) {
-        this.question = question;
-        this.mandatory = false;
-        this.results = new ArrayList<>();
-    }
+	public Question(String question) {
+		this.question = question;
+		this.required = false;
+		this.results = new ArrayList<>();
+	}
+
+	public Question(String type, String question, boolean required) {
+		this.type = type;
+		this.question = question;
+		this.required = required;
+		this.results = new ArrayList<>();
+
+		String str="";
+		str += "<label for=\"" +this.id+ "\">";
+		str += "<input class=\"questionAnswer\" type=\"" +this.id+ "\" id=\"" +this.id+ "\" name=\"" +this.id+'"';
+		if(this.required){
+			str += " required/>";
+		}else{
+			str += "/>";
+		}
+	}
 
     public Long getId() {
         return id;
@@ -49,12 +68,16 @@ public abstract class Question {
         this.question = question;
     }
 
-    public boolean isMandatory() {
-        return mandatory;
+    public boolean isRequired() {
+        return required;
     }
 
-    public void setMandatory(boolean mandatory) {
-        this.mandatory = mandatory;
+	public boolean isMandatory() {
+		return this.isRequired();
+	}
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
     public List<Result> getResults() {
