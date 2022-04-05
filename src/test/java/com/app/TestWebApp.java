@@ -92,7 +92,7 @@ public class TestWebApp {
         surveyRepo.save(survey);
         List<Survey> test = surveyRepo.findAll();
         Survey main = test.get(test.size()-1);
-        assertThat(test.size()).isEqualTo(7);
+        assertThat(test.size()).isEqualTo(8);
 
     }
     @Test
