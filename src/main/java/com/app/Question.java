@@ -1,7 +1,5 @@
 package com.app;
 
-import org.springframework.data.util.Pair;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +14,7 @@ public abstract class Question {
     protected Long id;
     protected String question;
     protected boolean mandatory;
-    private String type;
+    protected String type;
 
     @OneToMany(cascade = CascadeType.ALL)
     protected List<Result> results;
@@ -27,11 +25,18 @@ public abstract class Question {
         this.results = new ArrayList<>();
     }
 
-    public Question(String question) {
-        this.question = question;
-        this.mandatory = false;
-        this.results = new ArrayList<>();
-    }
+	public Question(String question) {
+		this.question = question;
+		this.mandatory = false;
+		this.results = new ArrayList<>();
+	}
+
+	public Question(String type, String question, boolean mandatory) {
+		this.type = type;
+		this.question = question;
+		this.mandatory = mandatory;
+		this.results = new ArrayList<>();
+	}
 
     public Long getId() {
         return id;
