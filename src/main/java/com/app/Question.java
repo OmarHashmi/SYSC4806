@@ -82,7 +82,6 @@ public abstract class Question {
                 CountPair counted = new CountPair(result.getAnswer());
                 for (Result innerResult: results) {
                     if((result.getAnswer() == innerResult.getAnswer()) && (result.getId() != innerResult.getId())){
-                        System.out.println("Got Inside Increment if");
                         counted.increment();
                     }
                 }
