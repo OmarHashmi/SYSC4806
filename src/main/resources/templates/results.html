@@ -45,53 +45,32 @@
             <div id="options">
                 <a class="optionValue" href="/">Home</a><br>
             </div>
-            <th:block th:each="survey : ${surveys}">
-                <div id="survey">
-                    <div id="surveyHeader">
-                        <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
-                        <div id="surveyInfo">
-                            <h2 id="surveyInfoNumberOfQuestions" th:text="'Number of Questions: ' + ${survey.questions.size}"></h2>
-                        </div>
-                    </div>
-                    <div id="surveyQuestions">
-                        <th:block th:each="question : ${survey.questions}">
-                            <div class="question">
-                                <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
-                                <h2 class="questionResponsesCount" th:text="'Number of Responses: ' + ${question.results.size}"></h2>
-                                <h2 class="questionAnswer" th:text="Results"></h2>
-<!--                                <table>-->
-<!--                                    <tr th:each="result : ${question.results}">-->
-<!--                                        <td class="display" th:text="${result.answer}">N/A</td>-->
-<!--                                    </tr>-->
-<!--                                </table>-->
-                                <th:block th:each="result : ${question.results}">
-                                    <p class = "questionResult"  th:text="${result.answer}"> n/a</p>
-                                </th:block>
-
-                            </div>
-                        </th:block>
+            <div id="survey">
+                <div id="surveyHeader">
+                    <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
+                    <div id="surveyInfo">
+                        <h2 id="surveyInfoNumberOfQuestions" th:text="'Number of Questions: ' + ${survey.questions.size}"></h2>
                     </div>
                 </div>
-            </th:block>
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Launch demo modal
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p>Modal body text goes here.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                <div id="surveyQuestions">
+                    <div th:each="question : ${stringQuestions}" class="question">
+                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                        <h2 class="questionResponsesCount" th:text="'Number of Responses: ' + ${question.results.size()}"></h2>
+                        <h2 class="questionAnswer" th:text="Results"></h2>
+                        <p class = "questionResult"  th:each="result : ${question.results}" th:text="${result.answer}"></p>
+                    </div>
+                    <div th:each="question : ${optionQuestions}" class="question">
+                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                        <h2 class="questionAnswer" th:text="Results"></h2>
+                        <div class="convert_to_chart" style="color: #18191a">
+                            <span style="display: none" th:text="${question.isMultipleSelect()}"></span>
+                            <div class="chart"></div>
+                            <table style="display:none" class="convert_to_chart_table">
+                                <tr th:each="resultPairs : ${question.analyseResults()}">
+                                    <td th:text="${resultPairs.getResult()}"></td>
+                                    <td th:text="${resultPairs.getCount()}"></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -100,35 +79,73 @@
     </div>
 </body>
 </html>
-<script>
-    var myModal = document.getElementById('myModal')
-    var myInput = document.getElementById('myInput')
+<script defer>
+var divs = document.getElementsByClassName("convert_to_chart");
+var charts = document.getElementsByClassName("chart");
 
-    myModal.addEventListener('shown.bs.modal', function () {
-      myInput.focus()
-    })
-    var xValues = [];
-    var yValues = [];
-    var barColors ="red";
+for (var i=0; i<divs.length; i++){
+    var div = divs[i];
+    var chart = charts[i];
+    var isMulti = div.getElementsByTagName("span")[0].innerHTML;
+    var tables = div.getElementsByTagName("table");
+    var table = tables[0];
+    var headers = [];
+    var valuesString = [];
+    var values = [];
+    var chartName = "chart"+i;
 
-    new Chart("myChart", {
-      type: "bar",
-      data: {
-      labels: xValues,
-      datasets: [{
-        backgroundColor: barColors,
-        data: yValues
-      }]
-    },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: "Result Frequency"
-        },
-        scales: {
-          xAxes: [{ticks: {min: 0}}]
+    var tds = table.getElementsByTagName("td")
+
+    for (var j = 0; j < tds.length; j++){
+        if (j%2 === 0) {
+            headers.push(tds[j].innerHTML);
+            valuesString.push(tds[j+1].innerHTML);
         }
-      }
-    });
+    }
+
+    for (var k = 0; k < valuesString.length; k ++) {
+        values.push(parseInt(valuesString[k]));
+    }
+
+    chart.innerHTML = "<canvas id=\"" + chartName + "\"style=\"width:100%;max-width:600px\">";
+
+    if (isMulti === "true") {
+        new Chart(chartName, {
+            type: "bar",
+            data: {
+                labels: headers,
+                datasets: [{
+                    backgroundColor: "red",
+                    data: values
+                }]
+            },
+            options: {
+                legend: {display: false},
+                title: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{ticks: {min: 0}}]
+                }
+            }
+        });
+    } else {
+        new Chart(chartName, {
+            type: "pie",
+            data: {
+                labels: headers,
+                datasets: [{
+                    backgroundColor: "red",
+                    data: values
+                }]
+            },
+            options: {
+                legend: {display: false},
+                title: {
+                    display: false
+                }
+            }
+        });
+    }
+}
 </script>
