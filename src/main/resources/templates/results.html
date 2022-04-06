@@ -33,119 +33,120 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div id="container">
-        <div id="header">
-            <div id="headerItems">
-                <h1 id="company">MonkeySurvey*</h1>
-                <p id="logo">Replace with logo</p>
-            </div>
+<div id="container">
+    <div id="header">
+        <div id="headerItems">
+            <h1 id="company">MonkeySurvey*</h1>
+            <p id="logo">Replace with logo</p>
         </div>
+    </div>
 
-        <div id="body">
-            <div id="options">
-                <a class="optionValue" href="/">Home</a><br>
-            </div>
-            <div id="survey">
-                <div id="surveyHeader">
-                    <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
-                    <div id="surveyInfo">
-                        <h2 id="surveyInfoNumberOfQuestions" th:text="'Number of Questions: ' + ${survey.questions.size}"></h2>
-                    </div>
+    <div id="body">
+        <div id="options">
+            <a class="optionValue" href="/">Home</a><br>
+        </div>
+        <div id="survey">
+            <div id="surveyHeader">
+                <h1 id="surveyTitle" th:text="${survey.getSurveyName()}"></h1>
+                <div id="surveyInfo">
+                    <h2 id="surveyInfoNumberOfQuestions" th:text="'Number of Questions: ' + ${survey.questions.size}"></h2>
                 </div>
-                <div id="surveyQuestions">
-                    <div th:each="question : ${stringQuestions}" class="question">
-                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
-                        <h2 class="questionResponsesCount" th:text="'Number of Responses: ' + ${question.results.size()}"></h2>
-                        <h2 class="questionAnswer" th:text="Results"></h2>
-                        <p class = "questionResult"  th:each="result : ${question.results}" th:text="${result.answer}"></p>
-                    </div>
-                    <div th:each="question : ${optionQuestions}" class="question">
-                        <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
-                        <h2 class="questionAnswer" th:text="Results"></h2>
-                        <div class="convert_to_chart" style="color: #18191a">
-                            <span style="display: none" th:text="${question.isMultipleSelect()}"></span>
-                            <div class="chart"></div>
-                            <table style="display:none" class="convert_to_chart_table">
-                                <tr th:each="resultPairs : ${question.analyseResults()}">
-                                    <td th:text="${resultPairs.getResult()}"></td>
-                                    <td th:text="${resultPairs.getCount()}"></td>
-                                </tr>
-                            </table>
-                        </div>
+            </div>
+            <div id="surveyQuestions">
+                <div th:each="question : ${stringQuestions}" class="question">
+                    <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                    <h2 class="questionResponsesCount" th:text="'Number of Responses: ' + ${question.results.size()}"></h2>
+                    <h2 class="questionAnswer" th:text="Results"></h2>
+                    <p class = "questionResult"  th:each="result : ${question.results}" th:text="${result.answer}"></p>
+                </div>
+                <div th:each="question : ${optionQuestions}" class="question">
+                    <h2 class="questionTitle" th:text="${question.getQuestion()}"></h2>
+                    <h2 class="questionAnswer" th:text="Results"></h2>
+                    <div class="convert_to_chart" style="color: #18191a">
+                        <span style="display: none" th:text="${question.isMultipleSelect()}"></span>
+                        <div class="chart"></div>
+                        <table style="display:none" class="convert_to_chart_table">
+                            <tr th:each="resultPairs : ${question.analyseResults()}">
+                                <td th:text="${resultPairs.getResult()}"></td>
+                                <td th:text="${resultPairs.getCount()}"></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
 <script defer>
-var divs = document.getElementsByClassName("convert_to_chart");
-var charts = document.getElementsByClassName("chart");
+    var divs = document.getElementsByClassName("convert_to_chart");
+    var charts = document.getElementsByClassName("chart");
+    var barColors = ["pink", "green","blue","orange","brown", "red", "yellow"];
 
-for (var i=0; i<divs.length; i++){
-    var div = divs[i];
-    var chart = charts[i];
-    var isMulti = div.getElementsByTagName("span")[0].innerHTML;
-    var tables = div.getElementsByTagName("table");
-    var table = tables[0];
-    var headers = [];
-    var valuesString = [];
-    var values = [];
-    var chartName = "chart"+i;
+    for (var i=0; i<divs.length; i++){
+        var div = divs[i];
+        var chart = charts[i];
+        var isMulti = div.getElementsByTagName("span")[0].innerHTML;
+        var tables = div.getElementsByTagName("table");
+        var table = tables[0];
+        var headers = [];
+        var valuesString = [];
+        var values = [];
+        var chartName = "chart"+i;
 
-    var tds = table.getElementsByTagName("td")
+        var tds = table.getElementsByTagName("td")
 
-    for (var j = 0; j < tds.length; j++){
-        if (j%2 === 0) {
-            headers.push(tds[j].innerHTML);
-            valuesString.push(tds[j+1].innerHTML);
+        for (var j = 0; j < tds.length; j++){
+            if (j%2 === 0) {
+                headers.push(tds[j].innerHTML);
+                valuesString.push(tds[j+1].innerHTML);
+            }
+        }
+
+        for (var k = 0; k < valuesString.length; k ++) {
+            values.push(parseInt(valuesString[k]));
+        }
+
+        chart.innerHTML = "<canvas id=\"" + chartName + "\"style=\"width:100%;max-width:600px\">";
+
+        if (isMulti === "true") {
+            new Chart(chartName, {
+                type: "bar",
+                data: {
+                    labels: headers,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: values
+                    }]
+                },
+                options: {
+                    legend: {display: false},
+                    title: {
+                        display: false
+                    },
+                    scales: {
+                        yAxes: [{ticks: {min: 0}}]
+                    }
+                }
+            });
+        } else {
+            new Chart(chartName, {
+                type: "pie",
+                data: {
+                    labels: headers,
+                    datasets: [{
+                        backgroundColor: barColors,
+                        data: values
+                    }]
+                },
+                options: {
+                    legend: {display: true},
+                    title: {
+                        display: false
+                    }
+                }
+            });
         }
     }
-
-    for (var k = 0; k < valuesString.length; k ++) {
-        values.push(parseInt(valuesString[k]));
-    }
-
-    chart.innerHTML = "<canvas id=\"" + chartName + "\"style=\"width:100%;max-width:600px\">";
-
-    if (isMulti === "true") {
-        new Chart(chartName, {
-            type: "bar",
-            data: {
-                labels: headers,
-                datasets: [{
-                    backgroundColor: "red",
-                    data: values
-                }]
-            },
-            options: {
-                legend: {display: false},
-                title: {
-                    display: false
-                },
-                scales: {
-                    yAxes: [{ticks: {min: 0}}]
-                }
-            }
-        });
-    } else {
-        new Chart(chartName, {
-            type: "pie",
-            data: {
-                labels: headers,
-                datasets: [{
-                    backgroundColor: "red",
-                    data: values
-                }]
-            },
-            options: {
-                legend: {display: false},
-                title: {
-                    display: false
-                }
-            }
-        });
-    }
-}
 </script>
