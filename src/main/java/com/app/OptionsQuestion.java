@@ -1,6 +1,5 @@
 package com.app;
 
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
@@ -13,17 +12,33 @@ public class OptionsQuestion extends Question {
         super();
     }
 
-    public OptionsQuestion(String question, ArrayList<String> answers) {
-        super(question);
-        this.answers = answers;
-        this.multipleSelect = false;
-    }
+	public OptionsQuestion(String type,String question, ArrayList<String> options) {
+		super(question);
+		this.answers = options;
 
-    public OptionsQuestion(boolean multipleSelect, String question, ArrayList<String> answers) {
-        super(question);
-        this.answers = answers;
-        this.multipleSelect = multipleSelect;
-    }
+		if(type.equals("radio")){
+			this.multipleSelect = false;
+		}
+		else if(type.equals("checkbox")){
+			this.multipleSelect = true;
+		}
+	}
+
+	public OptionsQuestion(boolean multipleSelect, String question, ArrayList<String> answers) {
+		super(question);
+		this.answers = answers;
+		this.multipleSelect = multipleSelect;
+	}
+
+	public OptionsQuestion(String type, String question, ArrayList<String> answers, boolean required) {
+		super(type,question,required);
+		this.answers = answers;
+		if(type.equals("radio")){
+			this.multipleSelect = false;
+		}else{
+			this.multipleSelect = true;
+		}
+	}
 
     public ArrayList<String> getAnswers() {
         return answers;

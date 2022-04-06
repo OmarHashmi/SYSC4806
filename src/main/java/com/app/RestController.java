@@ -32,16 +32,84 @@ public class RestController extends WebSecurityConfigurerAdapter {
 
             Survey survey = new Survey(((Integer)principal.getAttribute("id")).longValue(),values.get(1));
 
-            for(int i=2;i<values.size();i+=2){
-                String type   = values.get(i);
-                String prompt = values.get(i+1);
-                SingleQuestion q    = new SingleQuestion(type,prompt);
+			String type = "";
+			String prompt = "";
+			ArrayList<String> options = new ArrayList<String>();
+			boolean required = false;
+			int prevIndex = 1;
+			int index = 1;
 
-                survey.addQuestion(q);
-            }
+            for(int i=2;i<values.size();i++){
+				String key = (String) params.keySet().toArray()[i];
+				String val = params.get(key);
+
+				prevIndex = index;
+				index = key.charAt(1)-'0';
+
+				// All stuff for question x done
+				if(prevIndex != index &&
+				   !type.equals("radio") &&
+				   !type.equals("checkbox"))
+				{
+					System.out.println("prev "+prevIndex+" cur "+index);
+					SingleQuestion q = new SingleQuestion(type, prompt, required);
+					survey.addQuestion(q);
+					type="";
+					prompt="";
+					options = new ArrayList<String>();
+					required = false;
+				}
+
+				// All options added
+				if(prevIndex != index &&
+				  (type.equals("radio") || type.equals("checkbox")))
+				{
+					System.out.println("Added 2");
+					OptionsQuestion q = new OptionsQuestion(type, prompt, options, required);
+					survey.addQuestion(q);
+					type="";
+					prompt="";
+					options = new ArrayList<String>();
+					required = false;
+				}
+
+				if(key.charAt(0)=='t'){
+					type = val;
+				}
+				else if(key.charAt(0)=='p'){
+					prompt = val;
+				}
+				else if(key.charAt(0)=='o'){
+					options.add(val);
+				}
+				else if(key.charAt(0)=='r'){
+					if(val.equals("on")){
+						required = true;
+					}
+				}
+				System.out.println("Key "+key+", Val: "+val);
+			}
+
+			if(type.equals("radio") || type.equals("checkbox")){
+				System.out.println("Added 3");
+				OptionsQuestion q = new OptionsQuestion(type, prompt, options, required);
+				survey.addQuestion(q);
+				type="";
+				prompt="";
+				options = new ArrayList<String>();
+				required = false;
+			}
+			else{
+				System.out.println("Added 4");
+				SingleQuestion q = new SingleQuestion(type, prompt, required);
+				survey.addQuestion(q);
+				type="";
+				prompt="";
+				options = new ArrayList<String>();
+				required = false;
+			}
 
             surveys.save(survey);
-
         }
 		return new RedirectView("/mySurveys");
 	}

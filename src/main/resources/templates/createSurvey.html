@@ -31,35 +31,80 @@
     function addQuestion(){
         numQuestions++;
 
-        let rand = numQuestions%4+1;
+        document.getElementById("form").innerHTML += '<div id="q'+numQuestions+'"></div>';
+        updateQuestionCard("text",numQuestions);
+    }
+    function updateQuestionCard(type,i){
+
+        let element = document.getElementById("q"+i);
+
+        let rand = i%4+1;
 
         let str = "\n\n";
-        str+='<table class="table'+rand+'" id="q'+numQuestions+'"><tr>\n';
+        str+='<table class="table'+rand+'" id="q'+i+'"><tr>\n';
             str+='<td>\n';
-            str+='<b>id = '+numQuestions+'</b><br>\n';
+            str+='<b>id = '+i+'</b><br>\n';
 
-            str+='<label for="t'+numQuestions+'">Type: </label>\n';
-            str+='<select id="t'+numQuestions+'" name="t'+numQuestions+'">\n';
+            str+='<label for="t'+i+'">Types: </label>\n';
+            str+='<select id="t'+i+'" onchange="updateQuestionCard(this.value,'+i+')" name="t'+i+'" required>\n';
                 str+='\t<option value="text">Text</option>\n';
                 str+='\t<option value="number">Number</option>\n';
                 str+='\t<option value="date">Date</option>\n';
                 str+='\t<option value="color">Color</option>\n';
                 str+='\t<option value="tel">Phone Number</option>\n';
                 str+='\t<option value="email">Email</option>\n';
+                str+='\t<option value="radio">Radio Buttons</option>\n';
+                str+='\t<option value="checkbox">Checkboxes</option>\n';
             str+='</select><br>\n';
 
-            str+='<label for="p'+numQuestions+'">Prompt: </label>\n';
-            str+='<input id="p'+numQuestions+'" type="text" name="p'+numQuestions+'" required><br>\n';
+            str+='<label for="p'+i+'">Prompt: </label>\n';
+            str+='<input id="p'+i+'" type="text" name="p'+i+'" required><br>\n';
 
-            str+='<input type="button" onclick="removeQuestion('+numQuestions+')" value="Remove Question">\n';
+            if(type=="radio" || type=="checkbox"){
+                str+='<div id="options'+i+'">';
+
+                str+='<label for="num1">Num Options: </label>'
+                str+='<input id="num1" type="number" min="2" value="4" onchange="updateNumOptions(this.value,'+i+')" required><br>'
+
+                for(let j=1;j<=4;j++){
+                    let name="o"+i+"."+j;
+
+                    str+='<label for="'+name+'">Option '+j+': </label>'
+                    str+='<input id="'+name+'" type="text" name="'+name+'" required><br>'
+                }
+                str+='</div>';
+            }
+
+            str+='<label for="r'+i+'">Required: </label>\n';
+            str+='<input id="r'+i+'" type="checkbox" name="r'+i+'"><br>\n';
+
+            str+='<input type="button" onclick="removeQuestion('+i+')" value="Remove Question">\n';
             str+='</td>\n';
             str+='<td>\n';
-            str+='<img src="/media/'+(numQuestions%10)+'.gif">\n';
+            str+='<img src="/media/'+(i%10)+'.gif">\n';
             str+='</td>\n';
         str+='</tr></table>\n';
 
         //console.log(str);
-        document.getElementById("form").innerHTML += str;
+        element.innerHTML = str;
+        document.getElementById("t"+i).value=type;
+    }
+    function updateNumOptions(num,i){
+        let str="";
+
+        str+='<label for="num1">Num Options: </label>'
+        str+='<input id="num1" type="number" min="2" value="'+num+'" onchange="updateNumOptions(this.value,'+i+')" required><br>'
+
+        str+='<div id="options'+i+'">';
+        for(let j=1;j<=num;j++){
+            let name="o"+i+"."+j;
+
+            str+='<label for="'+name+'">Option '+j+': </label>'
+            str+='<input id="'+name+'" type="text" name="'+name+'" required><br>'
+        }
+        str+='</div>';
+
+        document.getElementById("options"+i).innerHTML=str;
     }
     function removeQuestion(i){
         let element = document.getElementById("q"+i);

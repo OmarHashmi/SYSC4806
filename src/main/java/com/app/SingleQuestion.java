@@ -4,9 +4,6 @@ import javax.persistence.*;
 
 @Entity
 public class SingleQuestion extends Question {
-
-    protected String type;
-
     protected SingleQuestion() {
         super();
         type = "text";
@@ -17,9 +14,8 @@ public class SingleQuestion extends Question {
         type = "text";
 	}
 
-	public SingleQuestion(String type, String question) {
-        super(question);
-		this.type = type;
+	public SingleQuestion(String type, String question, boolean required) {
+        super(type, question, required);
 	}
 
 	public String getType(){
