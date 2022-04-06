@@ -82,6 +82,7 @@
 <script defer>
 var divs = document.getElementsByClassName("convert_to_chart");
 var charts = document.getElementsByClassName("chart");
+var barColors = ["pink", "green","blue","orange","brown", "red", "yellow"];
 
 for (var i=0; i<divs.length; i++){
     var div = divs[i];
@@ -115,7 +116,7 @@ for (var i=0; i<divs.length; i++){
             data: {
                 labels: headers,
                 datasets: [{
-                    backgroundColor: "red",
+                    backgroundColor: barColors,
                     data: values
                 }]
             },
@@ -135,12 +136,12 @@ for (var i=0; i<divs.length; i++){
             data: {
                 labels: headers,
                 datasets: [{
-                    backgroundColor: "red",
+                    backgroundColor: barColors,
                     data: values
                 }]
             },
             options: {
-                legend: {display: false},
+                legend: {display: true},
                 title: {
                     display: false
                 }
